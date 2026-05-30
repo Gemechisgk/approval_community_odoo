@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Professional Approval Management',
+    'name': 'Approval for Community',
     'version': '18.0.1.0.0',
     'category': 'Human Resources/Approvals',
     'sequence': 190,

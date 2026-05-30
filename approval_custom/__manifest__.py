@@ -22,7 +22,7 @@ A comprehensive approval module that provides:
 This module replicates and extends the functionality of
 Odoo Enterprise's native approval module for Community Edition.
     """,
-    'author': 'Custom Development',
+    'author': 'Gemechis K.',
     'website': '',
     'depends': ['mail', 'hr', 'product'],
     'data': [

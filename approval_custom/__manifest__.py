@@ -55,4 +55,11 @@ Odoo Enterprise's native approval module for Community Edition.
     'installable': True,
     'auto_install': False,
     'license': 'LGPL-3',
+    'images': [
+        'static/description/banner.png',
+        'static/description/screenshot_dashboard.png',
+        'static/description/screenshot_request_form.png',
+        'static/description/screenshot_kanban_view.png',
+        'static/description/screenshot_review_list.png',
+    ],
 }

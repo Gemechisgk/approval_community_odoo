@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_activity_data_approval" model="mail.activity.type">
+            <field name="name">Approval</field>
+            <field name="icon">fa-check-circle</field>
+            <field name="res_model">approval.request</field>
+            <field name="category">default</field>
+            <field name="delay_count">0</field>
+            <field name="delay_unit">days</field>
+            <field name="summary">Approval Required</field>
+            <field name="keep_done">False</field>
+        </record>
+    </data>
+</odoo>

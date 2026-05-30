@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Cron: Auto-cancel expired requests (daily at 1 AM) -->
+        <record id="ir_cron_approval_check_expired" model="ir.cron">
+            <field name="name">Approval: Auto-cancel expired requests</field>
+            <field name="model_id" ref="model_approval_request"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_check_expired_requests()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Cron: Send reminder emails (daily at 9 AM) -->
+        <record id="ir_cron_approval_send_reminders" model="ir.cron">
+            <field name="name">Approval: Send pending reminders</field>
+            <field name="model_id" ref="model_approval_request"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_send_reminders()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Cron: Escalation check (daily at 10 AM) -->
+        <record id="ir_cron_approval_escalation" model="ir.cron">
+            <field name="name">Approval: Escalation check</field>
+            <field name="model_id" ref="model_approval_request"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_escalation_check()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

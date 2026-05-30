@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Email Template: Request Submitted -->
+        <record id="mail_template_approval_submitted" model="mail.template">
+            <field name="name">Approval: Request Submitted</field>
+            <field name="model_id" ref="model_approval_request"/>
+            <field name="subject">Approval Required: {{ object.name }}</field>
+            <field name="email_from">{{ (object.request_owner_id.email_formatted or object.company_id.email_formatted or '') }}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-size: 13px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Dear Approver,
+    </p>
+    <br/>
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        A new approval request has been submitted and requires your action:
+    </p>
+    <br/>
+    <table style="border-collapse: collapse; width: 100%;">
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; width: 30%;">Request</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Category</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.category_id.name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Requested By</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.request_owner_id.name }}</td>
+        </tr>
+        <tr t-if="object.amount">
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Amount</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.amount }}</td>
+        </tr>
+        <tr t-if="object.deadline">
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Deadline</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.deadline }}</td>
+        </tr>
+    </table>
+    <br/>
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Please review and take action on this request.
+    </p>
+</div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Email Template: Request Approved -->
+        <record id="mail_template_approval_approved" model="mail.template">
+            <field name="name">Approval: Request Approved</field>
+            <field name="model_id" ref="model_approval_request"/>
+            <field name="subject">✅ Approved: {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email_formatted or '') }}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-size: 13px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Dear {{ object.request_owner_id.name }},
+    </p>
+    <br/>
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Your approval request <strong>{{ object.name }}</strong> has been <strong style="color: #28a745;">approved</strong>.
+    </p>
+    <br/>
+    <table style="border-collapse: collapse; width: 100%;">
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; width: 30%;">Category</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.category_id.name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Submitted</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.date_confirmed }}</td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Email Template: Request Refused -->
+        <record id="mail_template_approval_refused" model="mail.template">
+            <field name="name">Approval: Request Refused</field>
+            <field name="model_id" ref="model_approval_request"/>
+            <field name="subject">❌ Refused: {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email_formatted or '') }}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-size: 13px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Dear {{ object.request_owner_id.name }},
+    </p>
+    <br/>
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Your approval request <strong>{{ object.name }}</strong> has been <strong style="color: #dc3545;">refused</strong>.
+    </p>
+    <br/>
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Please check the request details for the rejection reason, or contact the approver directly.
+    </p>
+    <br/>
+    <table style="border-collapse: collapse; width: 100%;">
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; width: 30%;">Category</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.category_id.name }}</td>
+        </tr>
+    </table>
+</div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Email Template: Reminder -->
+        <record id="mail_template_approval_reminder" model="mail.template">
+            <field name="name">Approval: Pending Reminder</field>
+            <field name="model_id" ref="model_approval_request"/>
+            <field name="subject">⏰ Reminder: Approval Pending - {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email_formatted or '') }}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-size: 13px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Dear Approver,
+    </p>
+    <br/>
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        This is a reminder that the following approval request is still pending your review:
+    </p>
+    <br/>
+    <table style="border-collapse: collapse; width: 100%;">
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; width: 30%;">Request</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Category</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.category_id.name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Requested By</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.request_owner_id.name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Submitted On</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.date_confirmed }}</td>
+        </tr>
+    </table>
+    <br/>
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Please take action at your earliest convenience.
+    </p>
+</div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Email Template: Escalation -->
+        <record id="mail_template_approval_escalation" model="mail.template">
+            <field name="name">Approval: Escalation Notice</field>
+            <field name="model_id" ref="model_approval_request"/>
+            <field name="subject">⚠️ Escalation: {{ object.name }} requires attention</field>
+            <field name="email_from">{{ (object.company_id.email_formatted or '') }}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-size: 13px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Dear Manager,
+    </p>
+    <br/>
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        The following approval request has been pending for more than 72 hours and requires escalation:
+    </p>
+    <br/>
+    <table style="border-collapse: collapse; width: 100%;">
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; width: 30%;">Request</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Category</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.category_id.name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Requested By</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.request_owner_id.name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Submitted On</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ object.date_confirmed }}</td>
+        </tr>
+    </table>
+    <br/>
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Please intervene or reassign this request.
+    </p>
+</div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

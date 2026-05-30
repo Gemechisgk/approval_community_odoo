@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Workflow Tree View -->
+    <record id="approval_workflow_view_tree" model="ir.ui.view">
+        <field name="name">approval.workflow.view.tree</field>
+        <field name="model">approval.workflow</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="level_count" string="Levels"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Workflow Form View -->
+    <record id="approval_workflow_view_form" model="ir.ui.view">
+        <field name="name">approval.workflow.view.form</field>
+        <field name="model">approval.workflow</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Workflow Name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Standard 3-Level Approval"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="description" placeholder="Describe this workflow..."/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Approval Levels" name="levels">
+                            <field name="level_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="approval_type"/>
+                                    <field name="user_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                    <field name="minimum_approvals" invisible="approval_type != 'minimum'"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Used In Categories" name="categories">
+                            <field name="category_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="company_id" groups="base.group_multi_company"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Workflow Search View -->
+    <record id="approval_workflow_view_search" model="ir.ui.view">
+        <field name="name">approval.workflow.search</field>
+        <field name="model">approval.workflow</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Workflow Action -->
+    <record id="approval_workflow_action" model="ir.actions.act_window">
+        <field name="name">Workflows</field>
+        <field name="res_model">approval.workflow</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first approval workflow
+            </p>
+            <p>
+                Define multi-level approval workflows with sequential levels,
+                each specifying which users must approve.
+            </p>
+        </field>
+    </record>
+</odoo>

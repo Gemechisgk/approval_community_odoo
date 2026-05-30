@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Product line tree view for request form -->
+    <record id="approval_product_line_view_tree" model="ir.ui.view">
+        <field name="name">approval.product.line.view.tree</field>
+        <field name="model">approval.product.line</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="company_id" column_invisible="True"/>
+                <field name="product_id"/>
+                <field name="description"/>
+                <field name="quantity"/>
+                <field name="product_uom_category_id" column_invisible="True"/>
+                <field name="product_uom_id" groups="uom.group_uom"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Product line kanban view (mobile) -->
+    <record id="approval_product_kanban_mobile_view" model="ir.ui.view">
+        <field name="name">approval.product.line.kanban.mobile</field>
+        <field name="model">approval.product.line</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="product_id"/>
+                <field name="description"/>
+                <field name="quantity"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_content">
+                                <strong><t t-esc="record.product_id.value"/></strong>
+                                <div class="text-muted">
+                                    <t t-esc="record.description.value"/> -
+                                    Qty: <t t-esc="record.quantity.value"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>

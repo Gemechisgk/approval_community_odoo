@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Delegation Tree View -->
+    <record id="approval_delegation_view_tree" model="ir.ui.view">
+        <field name="name">approval.delegation.view.tree</field>
+        <field name="model">approval.delegation</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="not active">
+                <field name="delegator_id" widget="many2one_avatar_user"/>
+                <field name="delegate_id" widget="many2one_avatar_user"/>
+                <field name="category_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Delegation Form View -->
+    <record id="approval_delegation_view_form" model="ir.ui.view">
+        <field name="name">approval.delegation.view.form</field>
+        <field name="model">approval.delegation</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Inactive" bg_color="text-bg-danger" invisible="active"/>
+                    <group>
+                        <group string="Delegation">
+                            <field name="delegator_id"/>
+                            <field name="delegate_id"/>
+                            <field name="category_id" placeholder="All categories"/>
+                        </group>
+                        <group string="Period">
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="active"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note" placeholder="Reason for delegation..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Delegation Search View -->
+    <record id="approval_delegation_view_search" model="ir.ui.view">
+        <field name="name">approval.delegation.search</field>
+        <field name="model">approval.delegation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="delegator_id"/>
+                <field name="delegate_id"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="my_delegations" string="My Delegations" domain="[('delegator_id', '=', uid)]"/>
+                <filter name="delegated_to_me" string="Delegated to Me" domain="[('delegate_id', '=', uid)]"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Delegation Action -->
+    <record id="approval_delegation_action" model="ir.actions.act_window">
+        <field name="name">Delegations</field>
+        <field name="res_model">approval.delegation</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a delegation
+            </p>
+            <p>
+                Delegate your approval authority to another user for a specific period.
+                The delegate will receive approval requests on your behalf.
+            </p>
+        </field>
+    </record>
+</odoo>

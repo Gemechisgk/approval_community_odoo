@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Rule Tree View -->
+    <record id="approval_rule_view_tree" model="ir.ui.view">
+        <field name="name">approval.rule.view.tree</field>
+        <field name="model">approval.rule</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="condition_summary"/>
+                <field name="workflow_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Rule Form View -->
+    <record id="approval_rule_view_form" model="ir.ui.view">
+        <field name="name">approval.rule.view.form</field>
+        <field name="model">approval.rule</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Rule Name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. High Value Purchase"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="General">
+                            <field name="category_id"/>
+                            <field name="sequence"/>
+                            <field name="workflow_id"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group string="Condition">
+                            <field name="use_domain"/>
+                            <field name="condition_field" invisible="use_domain"/>
+                            <field name="condition_operator" invisible="use_domain"/>
+                            <field name="condition_value" invisible="use_domain"/>
+                            <field name="domain_filter" invisible="not use_domain"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Rule Search View -->
+    <record id="approval_rule_view_search" model="ir.ui.view">
+        <field name="name">approval.rule.search</field>
+        <field name="model">approval.rule</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="category_id"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group string="Group By">
+                    <filter name="group_category" string="Category" context="{'group_by': 'category_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Rule Action -->
+    <record id="approval_rule_action" model="ir.actions.act_window">
+        <field name="name">Approval Rules</field>
+        <field name="res_model">approval.rule</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first approval rule
+            </p>
+            <p>
+                Rules determine which workflow to use based on request conditions.
+                They are evaluated in priority order — first match wins.
+            </p>
+        </field>
+    </record>
+</odoo>

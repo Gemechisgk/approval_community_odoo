@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Professional Approval Management',
+    'name': 'Approval for Community',
     'version': '18.0.1.0.0',
     'category': 'Human Resources/Approvals',
     'sequence': 190,
@@ -22,7 +22,7 @@ A comprehensive approval module that provides:
 This module replicates and extends the functionality of
 Odoo Enterprise's native approval module for Community Edition.
     """,
-    'author': 'Custom Development',
+    'author': 'Gemechis K.',
     'website': '',
     'depends': ['mail', 'hr', 'product'],
     'data': [
@@ -55,4 +55,13 @@ Odoo Enterprise's native approval module for Community Edition.
     'installable': True,
     'auto_install': False,
     'license': 'LGPL-3',
+    'price': 0,
+    'currency': 'EUR',
+    'images': [
+        'static/description/banner.png',
+        'static/description/screenshot_dashboard.png',
+        'static/description/screenshot_request_form.png',
+        'static/description/screenshot_kanban_view.png',
+        'static/description/screenshot_review_list.png',
+    ],
 }
